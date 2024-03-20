@@ -5,9 +5,9 @@ import { useState } from 'react';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 
 const ProductsContainer = () => {
-  const { meta } = useLoaderData();
-  const totalProducts = meta.pagination.total;
-
+  const { meta ,products} = useLoaderData();
+ 
+  const totalProducts = products.count;
   const [layout, setLayout] = useState('grid');
 
   const setActiveStyles = (pattern) => {

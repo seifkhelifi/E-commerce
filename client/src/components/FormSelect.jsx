@@ -10,13 +10,14 @@ const FormSelect = ({ label, name, list, defaultValue, size }) => {
         className={`select select-bordered ${size}`}
         defaultValue={defaultValue}
       >
-        {list.map((item) => {
+        
+        {list? list?.map((item) => {
           return (
             <option key={item} value={item}>
               {item}
             </option>
           );
-        })}
+        }):null}
       </select>
     </div>
   );

@@ -24,6 +24,8 @@ export const action =
     };
 
     try {
+
+     
       const response = await customFetch.post(
         '/orders',
         { data: info },
@@ -40,10 +42,10 @@ export const action =
     } catch (error) {
       console.log(error);
       const errorMessage =
-        error?.response?.data?.error?.message ||
+      error?.response?.data?.msg  ||
         'there was an error placing your order';
       toast.error(errorMessage);
-      if (error?.response?.status === 401 || 403) return redirect('/login');
+      //if (error?.response?.status === 401 || 403) return redirect('/login');
       return null;
     }
   };

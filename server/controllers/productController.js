@@ -8,10 +8,100 @@ const createProduct = async (req, res) => {
   const product = await Product.create(req.body);
   res.status(StatusCodes.CREATED).json({ product });
 };
-const getAllProducts = async (req, res) => {
-  const products = await Product.find({});
+// const getAllProducts = async (req, res) => {
+//   const products = await Product.find({});
 
-  res.status(StatusCodes.OK).json({ products, count: products.length });
+//   res.status(StatusCodes.OK).json({ products, count: products.length });
+// };
+const getAllProducts = async (req, res) => {
+  const { search, category, company, sort, price, shipping, page } = req.query;
+  const queryObject = {};
+
+  if (search) {
+      queryObject.name = { $regex: search, $options: "i" };
+  }
+  if (category && category !== "all") {
+      queryObject.category = { $regex: category, $options: "i" };
+  }
+  if (company && company !== "all") {
+      queryObject.company = { $regex: company, $options: "i" };
+  }
+  if (shipping) {
+      queryObject.freeShipping = shipping === "true" ? true : false;
+  }
+  if (price) {
+      queryObject.price = { $lte: price };
+  }
+
+  // sort
+  if (sort) {
+      const sortParts = sort.split(",");
+
+      // Validate sort options
+      const validSorts = ["a-z", "z-a", "high", "low"];
+      if (!sortParts.every((part) => validSorts.includes(part.toLowerCase()))) {
+          return res
+              .status(StatusCodes.BAD_REQUEST)
+              .json({ message: "Invalid sort parameter(s)" });
+      }
+
+      // Create sort object based on valid options
+      sort = sortParts.reduce((acc, part) => {
+          const direction = part.toLowerCase() === "low" || part.toLowerCase() === "a-z" ? -1 : 1;
+          const field =
+              part.toLowerCase() === "high" || part.toLowerCase() === "low" ? "price" : "name"; // Sort by price for "high"/"low"
+          acc[field] = direction;
+          return acc;
+      }, {});
+  }
+
+  let result = Product.find(queryObject).sort(sort);
+  // if (fields) {
+  //     const fieldsList = fields.split(",").join(" ");
+  //     result = result.select(fieldsList);
+  // }
+
+  const pages = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (pages - 1) * limit;
+
+  result = result.skip(skip).limit(limit);
+  // 23
+  // 4 7 7 7 2
+
+  const products = await result;
+
+  // Extract unique companies using aggregation
+  const distinctCompanies = await Product.aggregate([
+      {
+          $group: {
+              _id: "$company", // Group by company field
+          },
+      },
+  ]);
+  const companies = distinctCompanies.map((company) => company._id);
+
+  // Extract distinct categories using aggregation
+  const distinctCategories = await Product.aggregate([
+      {
+          $group: {
+              _id: "$category", // Group by category field
+          },
+      },
+  ]);
+
+  const categories = distinctCategories.map((category) => category._id);
+  categories.push("all");
+  companies.push("all");
+
+  const count = await Product.countDocuments();
+  const pageCount = Math.floor(count / limit)+1;
+
+  res.status(200).json({
+      products,
+      count: products.length,
+      meta: { companies, categories, pageCount,pages },
+  });
 };
 const getSingleProduct = async (req, res) => {
   const { id: productId } = req.params;

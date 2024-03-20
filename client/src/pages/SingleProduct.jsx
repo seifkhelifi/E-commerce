@@ -15,19 +15,20 @@ const singleProductQuery = (id) => {
 export const loader =
   (queryClient) =>
   async ({ params }) => {
+   
     const response = await queryClient.ensureQueryData(
       singleProductQuery(params.id)
     );
-
-    return { product: response.data.data };
+    console.log(response)
+    return { product: response.data.product };
   };
 
 const SingleProduct = () => {
   const { product } = useLoaderData();
-  const { image, title, price, description, colors, company } =
-    product.attributes;
-  const dollarsAmount = formatPrice(price);
-  const [productColor, setProductColor] = useState(colors[0]);
+  // const { image, title, price, description, colors, company } =
+  //   product.attributes;
+  
+  const [productColor, setProductColor] = useState(product.colors[0]);
   const [amount, setAmount] = useState(1);
 
   const handleAmount = (e) => {
@@ -37,14 +38,14 @@ const SingleProduct = () => {
   const cartProduct = {
     cartID: product.id + productColor,
     productID: product.id,
-    image,
-    title,
-    price,
-    company,
+    image:product?.image,
+    title:product.name,
+    price:product.price,
+    company:product.company,
     productColor,
     amount,
   };
-
+  const dollarsAmount = formatPrice(product.price);
   const dispatch = useDispatch();
 
   const addToCart = () => {
@@ -67,25 +68,25 @@ const SingleProduct = () => {
       <div className='mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16'>
         {/* IMAGE */}
         <img
-          src={image}
-          alt={title}
+          src={product?.image}
+          alt={product?.name}
           className='w-96 h-96 object-cover rounded-lg lg:w-full'
         />
         {/* PRODUCT */}
         <div>
-          <h1 className='capitalize text-3xl font-bold'>{title}</h1>
+          <h1 className='capitalize text-3xl font-bold'>{product?.name}</h1>
           <h4 className='text-xl text-neutral-content font-bold mt-2'>
-            {company}
+            {product?.company}
           </h4>
           <p className='mt-3 text-xl'>{dollarsAmount}</p>
-          <p className='mt-6 leading-8'>{description}</p>
+          <p className='mt-6 leading-8'>{product?.description}</p>
           {/* COLORS */}
           <div className='mt-6'>
             <h4 className='text-md font-medium tracking-wider capitalize'>
               colors
             </h4>
             <div className='mt-2'>
-              {colors.map((color) => {
+              {product?.colors.map((color) => {
                 return (
                   <button
                     key={color}

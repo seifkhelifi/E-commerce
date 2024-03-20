@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomeLayout />,
-    errorElement: <Error />,
+    //  errorElement: <Error />,
     children: [
       {
         index: true,
@@ -53,13 +53,13 @@ const router = createBrowserRouter([
       {
         path: 'products',
         element: <Products />,
-        errorElement: <ErrorElement />,
+        //  errorElement: <ErrorElement />,
         loader: productsLoader(queryClient),
       },
       {
         path: 'products/:id',
         element: <SingleProduct />,
-        errorElement: <ErrorElement />,
+        // errorElement: <ErrorElement />,
         loader: singleProductLoader(queryClient),
       },
       {

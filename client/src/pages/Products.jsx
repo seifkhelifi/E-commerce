@@ -13,7 +13,7 @@ const allProductsQuery = (queryParams) => {
       category ?? 'all',
       company ?? 'all',
       sort ?? 'a-z',
-      price ?? 100000,
+      price ?? 10000000,
       shipping ?? false,
       page ?? 1,
     ],
@@ -34,8 +34,9 @@ export const loader =
     const response = await queryClient.ensureQueryData(
       allProductsQuery(params)
     );
-    const products = response.data.data;
-    const meta = response.data.meta;
+    console.log(response)
+    const products = response.data;
+    const meta = response.data;
     return { products, meta, params };
   };
 
@@ -44,7 +45,7 @@ const Products = () => {
     <>
       <Filters />
       <ProductsContainer />
-      <PaginationContainer />
+      <PaginationContainer /> 
     </>
   );
 };

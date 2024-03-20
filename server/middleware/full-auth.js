@@ -13,7 +13,7 @@ const authenticateUser = async (req, res, next) => {
     token = req.cookies.token;
   }
 
-  if (!token) {
+  if (token=="") {
     throw new CustomError.UnauthenticatedError('Authentication invalid');
   }
   try {

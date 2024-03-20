@@ -9,6 +9,14 @@ export const customFetch = axios.create({
 	//credentials: 'include',
 });
 
+
+export const customFetchwithCred = axios.create({
+   withCredentials: true,
+   baseURL: productionUrl,
+  
+ });
+ 
+
 export const formatPrice = (price) => {
   const dollarsAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',

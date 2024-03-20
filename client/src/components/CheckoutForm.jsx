@@ -1,9 +1,11 @@
 import { Form, redirect } from 'react-router-dom';
 import FormInput from './FormInput';
 import SubmitBtn from './SubmitBtn';
-import { customFetch, formatPrice } from '../utils';
+import { customFetchwithCred,customFetch, formatPrice } from '../utils';
 import { toast } from 'react-toastify';
 import { clearCart } from '../features/cart/cartSlice';
+import {loadStripe} from '@stripe/stripe-js';
+import { BsStripe } from 'react-icons/bs';
 
 export const action =
   (store, queryClient) =>
@@ -11,29 +13,26 @@ export const action =
     const formData = await request.formData();
     const { name, address } = Object.fromEntries(formData);
     const user = store.getState().userState.user;
-    const { cartItems, orderTotal, numItemsInCart } =
+    const { cartItems, orderTotal, numItemsInCart,tax ,shipping} =
       store.getState().cartState;
 
     const info = {
       name,
       address,
       chargeTotal: orderTotal,
-      orderTotal: formatPrice(orderTotal),
+      orderTotal: orderTotal,
       cartItems,
       numItemsInCart,
+      tax:tax,
+      shippingFee:shipping
     };
 
     try {
 
      
-      const response = await customFetch.post(
+      const response = await customFetchwithCred.post(
         '/orders',
-        { data: info },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        { data: info }
       );
       queryClient.removeQueries(['orders']);
       store.dispatch(clearCart());

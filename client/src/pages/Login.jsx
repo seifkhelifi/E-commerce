@@ -1,6 +1,6 @@
 import { FormInput, SubmitBtn } from '../components';
 import { Form, Link, redirect, useNavigate } from 'react-router-dom';
-import { customFetch } from '../utils';
+import { customFetchwithCred } from '../utils';
 import { toast } from 'react-toastify';
 import { loginUser } from '../features/user/userSlice';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ export const action =
     console.log(data)
 
     try {
-      const response = await customFetch.post('/auth/login', data);
+      const response = await customFetchwithCred.post('/auth/login', data);
       
       store.dispatch(loginUser(response.data));
       toast.success('logged in successfully');

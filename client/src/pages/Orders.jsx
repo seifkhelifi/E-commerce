@@ -1,6 +1,6 @@
 import { redirect, useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { customFetch } from '../utils';
+import { customFetchwithCred } from '../utils';
 import {
   OrdersList,
   ComplexPaginationContainer,
@@ -15,11 +15,8 @@ const ordersQuery = (params, user) => {
       params.page ? parseInt(params.page) : 1,
     ],
     queryFn: () =>
-      customFetch.get('/orders', {
-        params,
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+      customFetchwithCred.get('/orders/showAllMyOrders', {
+        params
       }),
   };
 };
@@ -40,8 +37,8 @@ export const loader =
       const response = await queryClient.ensureQueryData(
         ordersQuery(params, user)
       );
-
-      return { orders: response.data.data, meta: response.data.meta };
+        console.log(response)
+      return { orders: response.data, meta: response.data.count };
     } catch (error) {
       console.log(error);
       const errorMessage =
@@ -55,14 +52,14 @@ export const loader =
 
 const Orders = () => {
   const { meta } = useLoaderData();
-  if (meta.pagination.total < 1) {
+  if (meta < 1) {
     return <SectionTitle text='please make an order' />;
   }
   return (
     <>
       <SectionTitle text='Your Orders' />
       <OrdersList />
-      <ComplexPaginationContainer />
+      {/* <ComplexPaginationContainer /> */}
     </>
   );
 };

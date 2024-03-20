@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const {
   authenticateUser,
@@ -11,6 +12,7 @@ const {
   getCurrentUserOrders,
   createOrder,
   updateOrder,
+  stripecheckout,
 } = require('../controllers/orderController');
 
 router
@@ -25,4 +27,8 @@ router
   .get(authenticateUser, getSingleOrder)
   .patch(authenticateUser, updateOrder);
 
+ router
+  .route('/create-checkout-session')
+  .post(stripecheckout)
+ 
 module.exports = router;

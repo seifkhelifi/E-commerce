@@ -28,6 +28,7 @@ import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
 import { action as checkoutAction } from './components/CheckoutForm';
 import { store } from './store';
+import Canceledstripe from './pages/Canceledstripe';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,6 +81,11 @@ const router = createBrowserRouter([
         path: 'orders',
         element: <Orders />,
         loader: ordersLoader(store, queryClient),
+      },
+      {
+        path: 'Canceled',
+        element: <Canceledstripe />,
+        action: checkoutAction(store, queryClient),
       },
     ],
   },

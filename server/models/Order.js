@@ -48,6 +48,10 @@ const OrderSchema = mongoose.Schema(
     paymentIntentId: {
       type: String,
     },
+    holder: {
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 );

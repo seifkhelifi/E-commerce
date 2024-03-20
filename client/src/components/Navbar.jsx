@@ -2,7 +2,7 @@ import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 import NavLinks from './NavLinks';
-
+import saz from '../assets/saz.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../features/user/userSlice';
 
@@ -25,9 +25,12 @@ const Navbar = () => {
           {/* TITLE */}
           <NavLink
             to='/'
-            className='hidden lg:flex btn btn-primary text-3xl items-center'
+            className=''
           >
-            C
+            <img src={saz} style={{width:'205px',height:"99px" ,    position: 'relative',
+    top: '15px',
+
+    objectFit: 'cover'}}/>
           </NavLink>
           {/* DROPDOWN */}
           <div className='dropdown'>

@@ -1,6 +1,6 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-
+const stripe = require("stripe")(process.env.STRIPE_SECRET)
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const { checkPermissions } = require('../utils');
@@ -11,8 +11,8 @@ const fakeStripeAPI = async ({ amount, currency }) => {
 };
 
 const createOrder = async (req, res) => {
-  const { items: cartItems, tax, shippingFee } = req.body;
-
+  const { cartItems, tax, shippingFee, name :nameholder} = req.body.data;
+  console.log("//////////////",nameholder)
   if (!cartItems || cartItems.length < 1) {
     throw new CustomError.BadRequestError('No cart items provided');
   }
@@ -26,10 +26,10 @@ const createOrder = async (req, res) => {
   let subtotal = 0;
 
   for (const item of cartItems) {
-    const dbProduct = await Product.findOne({ _id: item.product });
+    const dbProduct = await Product.findOne({ _id: item.productID });
     if (!dbProduct) {
       throw new CustomError.NotFoundError(
-        `No product with id : ${item.product}`
+        `No product with id : ${item.productID}`
       );
     }
     const { name, price, image, _id } = dbProduct;
@@ -54,6 +54,7 @@ const createOrder = async (req, res) => {
   });
 
   const order = await Order.create({
+    holder:nameholder,
     orderItems,
     total,
     subtotal,
@@ -101,10 +102,37 @@ const updateOrder = async (req, res) => {
   res.status(StatusCodes.OK).json({ order });
 };
 
+const stripecheckout= async (req, res) => {
+  
+  console.log(req.body);
+  const  lineItems=req.body.cartItems?.map((product)=>({
+ price_data:{
+  currency:"usd",
+  product_data:{
+    name: product.title,
+    images: [product.image],
+
+  },
+  unit_amount: Math.round(product.price),
+ },
+ quantity:product.amount
+  }))
+  console.log('///////////////////////',lineItems);
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types:[ "card"],
+    line_items: lineItems,
+    mode: "payment",
+    success_url:"http://localhost:5173/checkout",
+    cancel_url:"http://localhost:5173/Canceled"
+  })
+
+  res.json({id:session.id})
+}
 module.exports = {
   getAllOrders,
   getSingleOrder,
   getCurrentUserOrders,
   createOrder,
   updateOrder,
+  stripecheckout
 };

@@ -23,7 +23,7 @@ export const action = async ({ request }) => {
 
 const Register = () => {
   return (
-    <section className='h-screen grid place-items-center'>
+    <section className="h-screen grid place-items-center bg-[url('/src/assets/test2.jpg')] bg-no-repeat bg-center bg-cover">
       <Form
         method='POST'
         className='card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4'

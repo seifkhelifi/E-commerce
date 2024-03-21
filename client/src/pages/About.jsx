@@ -8,7 +8,7 @@ const About = () => {
         <div className='stats bg-primary shadow'>
           <div className='stat'>
             <div className='stat-title text-primary-content text-4xl font-bold tracking-widest'>
-              SAZ
+            SHAZ
             </div>
           </div>
         </div>
@@ -19,25 +19,25 @@ const About = () => {
 <br></br>
 <span className="text-blue-950l font-bold text-lg">1. Passion-Driven Focus: </span>
 <br></br>
-At  SAZ Store, we're more than just an online store. We're a passionate team dedicated to bringing you products that [benefit/feeling]. We believe in [core values] and strive to [mission statement]. Join us on our journey to [vision statement].
+At  SHAZ Store, we're more than just an online store. We're a passionate team dedicated to bringing you products that [benefit/feeling]. We believe in [core values] and strive to [mission statement]. Join us on our journey to [vision statement].
 <br></br>
 <br></br>
 <span className="text-blue-950l font-bold text-lg">2. Quality and Customer Focus:</span>
 
 <br></br>
-Founded in 2024,  SAZ Store has become a trusted source for products. We offer exceptional quality and a commitment to customer satisfaction. We believe in [core values] and go the extra mile to ensure a positive shopping experience for every customer.
+Founded in 2024,  SHAZ Store has become a trusted source for products. We offer exceptional quality and a commitment to customer satisfaction. We believe in [core values] and go the extra mile to ensure a positive shopping experience for every customer.
 <br></br>
 <br></br>
 <span className="text-blue-950l font-bold text-lg">3. Sustainability and Ethical Focus:</span>
 
 <br></br>
- SAZ Store is committed to [sustainability/ethical practices]. We source our products from [suppliers/practices] and prioritize [environmental/social responsibility]. We believe in creating a positive impact while offering you beautiful and functional products.
+ SHAZ Store is committed to [sustainability/ethical practices]. We source our products from [suppliers/practices] and prioritize [environmental/social responsibility]. We believe in creating a positive impact while offering you beautiful and functional products.
  <br></br>
  <br></br>
  <span className="text-blue-950l font-bold text-lg">4. Community and Uniqueness Focus:</span>
 
 <br></br>
- SAZ Store is more than just a store; it's a community. We connect you with products that tell a story and celebrate [uniqueness/heritage]. We believe in [core values] and fostering a space for [target audience] to connect.
+ SHAZ Store is more than just a store; it's a community. We connect you with products that tell a story and celebrate [uniqueness/heritage]. We believe in [core values] and fostering a space for [target audience] to connect.
       </p>
     </>
   );

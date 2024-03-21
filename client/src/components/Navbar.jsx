@@ -2,7 +2,7 @@ import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 import NavLinks from './NavLinks';
-import saz from '../assets/saz.png'
+import shaz from '../assets/shaz.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../features/user/userSlice';
 
@@ -27,10 +27,7 @@ const Navbar = () => {
             to='/'
             className=''
           >
-            <img src={saz} style={{width:'205px',height:"99px" ,    position: 'relative',
-    top: '15px',
-
-    objectFit: 'cover'}}/>
+            <img src={shaz} style={{width:'205px',height:"63px" , objectFit: 'contain'}}/>
           </NavLink>
           {/* DROPDOWN */}
           <div className='dropdown'>

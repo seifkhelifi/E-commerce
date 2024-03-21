@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { formatPrice } from '../utils';
-
+import image from '../assets/pay.jpg'
 const CartTotals = () => {
   const { cartTotal, shipping, tax, orderTotal } = useSelector(
     (state) => state.cartState
@@ -8,6 +8,7 @@ const CartTotals = () => {
 
   return (
     <div className='card bg-base-200'>
+   
       <div className='card-body'>
         {/* SUBTOTAL */}
         <p className='flex justify-between text-xs border-b border-base-300 pb-2'>
